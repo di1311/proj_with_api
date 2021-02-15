@@ -9,4 +9,4 @@ def view_response(request):
         название игры и самую низкую цену.
     """
     obj = requester.get_games()
-    return render(request, 'index.html', context={'obj': obj})
+    return render(request, 'api_app/base.html', context={'obj': obj})

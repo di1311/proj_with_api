@@ -4,5 +4,5 @@ from .requests_to_api import *
 
 
 urlpatterns = [
-    path('', view_response)
+    path('/search', view_response, name='view_response_url')
 ]
