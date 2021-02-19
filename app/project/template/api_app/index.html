@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% for game in obj %}
+<p>
+    <a href="{% url 'game_detail_url' game_id=game.gameID %}">{{ game.external }}</a> - cheapest price: <a href="#">{{ game.cheapest }}$</a>
+</p>
+
+    {% endfor %}
+{% endblock %}
