@@ -24,5 +24,6 @@ def game_detail_view(request, id):
     """ Функция, чтобы детально показать информацию по конкретной игре,
         через её ID.
     """
+    stores_info = requester.get_stores()
     obj = requester.get_games(id=id)
-    return render(request, 'api_app/game_detail.html', context={'obj': obj})
+    return render(request, 'api_app/game_detail.html', context={'obj': obj, 'stores': stores_info})
