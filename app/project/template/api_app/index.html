@@ -4,7 +4,8 @@
 {% block content %}
 {% for game in obj %}
 <p>
-    <a href="{% url 'game_detail_url' id=game.gameID %}">{{ game.external }}</a> - cheapest price: <a href="#">{{ game.cheapest }}$</a>
+    <a href="{% url 'game_detail_url' id=game.gameID %}">{{ game.external }}</a> - cheapest price:
+    <a href="{% url 'deal_detail_url' deal_id=game.cheapestDealID %}">{{ game.cheapest }}$</a>
 </p>
 
     {% endfor %}
