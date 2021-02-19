@@ -29,7 +29,7 @@ def game_detail_view(request, id):
 
 def deal_detail_view(request, deal_id):
     """ Функция для детального deal """
-    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', deal_id, type(deal_id))
     deal_info = requester.get_deal(deal_id)
+    print('AAAAAAAAAAAAAA', deal_info)
     stores_info = requester.get_stores()
     return render(request, 'api_app/deal_detail.html', context={'deal': deal_info, 'stores': stores_info})

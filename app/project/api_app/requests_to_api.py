@@ -5,7 +5,7 @@ class RequestApi:
     """ Класс, который делает запрос, я хз"""
     url_games = 'https://www.cheapshark.com/api/1.0/games'
     url_stores = 'https://www.cheapshark.com/api/1.0/stores'
-    url_deals = 'https://www.cheapshark.com/api/1.0/deals/'
+    url_deals = 'https://www.cheapshark.com/api/1.0/deals'
 
     def get_games(self, **kwargs):
         """ Запрос для получения списка игр
@@ -40,7 +40,7 @@ class RequestApi:
         """ Запрос по конкретному предложению (по его id),
             отправляется когда на цену жмешь.
         """
-        deal_obj = requests.get(RequestApi.url_deals, params={'id': deal_id})
+        deal_obj = requests.get(RequestApi.url_deals + '?id=' + deal_id)
         if deal_obj.status_code == 200:
             deal_obj_json = deal_obj.json()
             if deal_obj_json:
