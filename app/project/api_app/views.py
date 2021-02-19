@@ -15,14 +15,14 @@ def view_response(request):
         возвращает три интересующих поля по каждой игре: gameID (чтобы сделать запрос по конкретной игре, нужен id),
         название игры и самую низкую цену.
     """
-    title = request.POST
-    obj = requester.get_games(title)
+    title = request.POST['search']
+    obj = requester.get_games(title=title)
     return render(request, 'api_app/index.html', context={'obj': obj})
 
 
-def game_detail_view(request, game_id):
+def game_detail_view(request, id):
     """ Функция, чтобы детально показать информацию по конкретной игре,
         через её ID.
     """
-    print('AAAAAAAAAAAAAAAAAAAAAAAAAAA', game_id)
-    pass
+    obj = requester.get_games(id=id)
+    return render(request, 'api_app/game_detail.html', context={'obj': obj})
