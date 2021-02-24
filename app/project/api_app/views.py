@@ -22,14 +22,17 @@ def game_detail_view(request, id):
     """ Функция, чтобы детально показать информацию по конкретной игре,
         через её ID.
     """
-    # stores_info = requester.get_stores()
+    """ Чтобы по ID магазина вывести его storeName, сделал 
+        словарь типа: {'1': 'Steam', '2': Gamesplanet, '3': '....'}
+    """
     obj = requester.get_games(id=id)
-    return render(request, 'api_app/game_detail.html', context={'obj': obj})
+    stores_info = requester.get_stores()
+    shop_dict = dict(zip([item['storeID'] for item in stores_info], [item['storeName'] for item in stores_info]))
+    return render(request, 'api_app/game_detail.html', context={'obj': obj, 'shop_dict': shop_dict})
 
 
 def deal_detail_view(request, deal_id):
     """ Функция для детального deal """
     deal_info = requester.get_deal(deal_id)
-    print('AAAAAAAAAAAAAA', deal_info)
     stores_info = requester.get_stores()
     return render(request, 'api_app/deal_detail.html', context={'deal': deal_info, 'stores': stores_info})

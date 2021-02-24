@@ -49,6 +49,4 @@ class RequestApi:
                 return 'Nothing found'
 
 
-
-
 requester = RequestApi()
