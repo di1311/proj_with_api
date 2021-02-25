@@ -4,11 +4,11 @@
 
 {% block content %}
 {{ obj.info.title }} - <a>{{ obj.cheapestPriceEver.price }}$</a> - cheapest price ever
-    <h4>Other deals:</h4>
+    <h5>Other deals:</h5>
 
         {% for obj_deal in obj.deals %}
     <p>
-        {{ shop_dict|get_item:obj_deal.storeID }}'s
+        {{ stores_dict|get_item:obj_deal.storeID }}:
         price - {{ obj_deal.price }}$,
         retail price - {{ obj_deal.retailPrice }}$,
         savings - {{ obj_deal.savings }}

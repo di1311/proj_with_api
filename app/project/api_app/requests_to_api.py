@@ -48,5 +48,11 @@ class RequestApi:
             else:
                 return 'Nothing found'
 
+    def store_dictionary(self, info):
+        """ Чтобы по ID магазина вывести его storeName, сделал
+            словарь типа: {'1': 'Steam', '2': Gamesplanet, '3': '...'}
+        """
+        return dict(zip([item['storeID'] for item in info], [item['storeName'] for item in info]))
+
 
 requester = RequestApi()
