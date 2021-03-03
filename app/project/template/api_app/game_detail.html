@@ -3,12 +3,25 @@
 
 
 {% block content %}
-{{ obj.info.title }} - <a>{{ obj.cheapestPriceEver.price }}$</a> - cheapest price ever
-    <h5>Other deals:</h5>
+{{ deal.gameInfo.name }}
+<p>steam rating: "{{ deal.gameInfo.steamRatingText }}"
+        {% if steamRatingPercent %}
+    {{ deal.gameInfo.steamRatingPercent }}% positive reviews</p>
+        {% endif %}
+        {% if deal.gameInfo.metacriticLink %}
+    <p>metacritic score - {{ deal.gameInfo.metacriticScore }}</p>
+    <p><a href="https://www.metacritic.com{{ deal.gameInfo.metacriticLink }}">metacritic link</a></p>
+        {% endif %}
+<h5>Cheapest deal:</h5>
+<p>store:<a href="{{ stores_links|get_item:deal.gameInfo.storeID }}"> {{ stores_dict|get_item:deal.gameInfo.storeID }}</a></p>
+<p>sale price - {{ deal.gameInfo.salePrice }}$</p>
+<p>retail price - {{ deal.gameInfo.retailPrice }}$</p>
+
+    <h5>All deals:</h5>
 
         {% for obj_deal in obj.deals %}
     <p>
-        {{ stores_dict|get_item:obj_deal.storeID }}:
+        <a href="{{ stores_links|get_item:obj_deal.storeID }}">{{ stores_dict|get_item:obj_deal.storeID }}:</a>
         price - {{ obj_deal.price }}$,
         retail price - {{ obj_deal.retailPrice }}$,
         savings - {{ obj_deal.savings }}

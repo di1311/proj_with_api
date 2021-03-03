@@ -2,7 +2,7 @@ import requests
 
 
 class RequestApi:
-    """ Класс, который делает запрос, я хз"""
+    """ Класс, который делает запрос, я хз """
     url_games = 'https://www.cheapshark.com/api/1.0/games'
     url_stores = 'https://www.cheapshark.com/api/1.0/stores'
     url_deals = 'https://www.cheapshark.com/api/1.0/deals'
@@ -37,16 +37,13 @@ class RequestApi:
                 return 'Nothing found'
 
     def get_deal(self, deal_id):
-        """ Запрос по конкретному предложению (по его id),
+        """ Запрос по конкретному предложению (по его deal_id),
             отправляется когда на цену жмешь.
         """
         deal_obj = requests.get(RequestApi.url_deals + '?id=' + deal_id)
         if deal_obj.status_code == 200:
             deal_obj_json = deal_obj.json()
-            if deal_obj_json:
-                return deal_obj_json
-            else:
-                return 'Nothing found'
+            return deal_obj_json
 
     def store_dictionary(self, info):
         """ Чтобы по ID магазина вывести его storeName, сделал

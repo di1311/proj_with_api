@@ -1,12 +1,10 @@
 from django import forms
-
+from .models import Games
 """ Форма, которая принимает название игры """
 
 
-class SearchForm(forms.ModelForm):
-    pass
-
-
-
+class statisticsForm(forms.ModelForm):
+    class Meta:
+        model = Games
 
 

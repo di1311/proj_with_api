@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .requests_to_api import requester
-from django.views.generic import View
+from .utils import stores_links
 
 
 def view_home_page(request):
@@ -18,19 +18,17 @@ def view_response(request):
     return render(request, 'api_app/index.html', context={'obj': obj})
 
 
-def game_detail_view(request, id):
+def game_detail_view(request, id, deal_id):
     """ Функция, чтобы детально показать информацию по конкретной игре,
-        через её ID.
+        через её id, и deal_id.
     """
     obj = requester.get_games(id=id)
-    stores_info = requester.get_stores()
-    stores_dict = requester.store_dictionary(stores_info)
-    return render(request, 'api_app/game_detail.html', context={'obj': obj, 'stores_dict': stores_dict})
-
-
-def deal_detail_view(request, deal_id):
-    """ Функция для детального deal """
     deal_info = requester.get_deal(deal_id)
     stores_info = requester.get_stores()
     stores_dict = requester.store_dictionary(stores_info)
-    return render(request, 'api_app/deal_detail.html', context={'deal': deal_info, 'stores_dict': stores_dict})
+    print(stores_dict)
+    return render(request, 'api_app/game_detail.html', context={
+        'obj': obj, 'deal': deal_info, 'stores_dict': stores_dict,
+        'stores_links': stores_links
+    }
+                  )
