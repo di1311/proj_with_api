@@ -6,5 +6,6 @@ from .models import Games
 class statisticsForm(forms.ModelForm):
     class Meta:
         model = Games
+        fields = ['title', 'game_views']
 
 
