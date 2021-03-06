@@ -1,6 +1,7 @@
 import requests
 
 
+# noinspection PyMethodMayBeStatic
 class RequestApi:
     """ Класс, который делает запрос, я хз """
     url_games = 'https://www.cheapshark.com/api/1.0/games'
@@ -20,13 +21,11 @@ class RequestApi:
                 return res_obj_json
             else:
                 return 'Nothing found'
-        else:
-            print('Shto-to ne tak')
+
 
     def get_stores(self):
         """ Запрос для получения списка магазинов,
-            который я отправляю контекстом в шаблон,
-            но пока не применяю эту инфу.
+            который я отправляю контекстом в шаблон.
         """
         res_obj = requests.get(RequestApi.url_stores)
         if res_obj.status_code == 200:
@@ -43,13 +42,10 @@ class RequestApi:
         deal_obj = requests.get(RequestApi.url_deals + '?id=' + deal_id)
         if deal_obj.status_code == 200:
             deal_obj_json = deal_obj.json()
-            return deal_obj_json
-
-    def store_dictionary(self, info):
-        """ Чтобы по ID магазина вывести его storeName, сделал
-            словарь типа: {'1': 'Steam', '2': Gamesplanet, '3': '...'}
-        """
-        return dict(zip([item['storeID'] for item in info], [item['storeName'] for item in info]))
+            if deal_obj_json:
+                return deal_obj_json
+            else:
+                return 'Nothing found'
 
 
 requester = RequestApi()
