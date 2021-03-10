@@ -55,7 +55,7 @@
                     <a class="nav-link" href="#">Link</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" >Most popular games</a>
+                    <a class="nav-link" href="{% url 'popular_games_url' %}" >Most popular games</a>
                 </li>
             </ul>
             <form class="d-flex" action="{% url 'search_view_url' %}" method="post">

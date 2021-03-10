@@ -1,5 +1,8 @@
-from .utils import *
+from django.shortcuts import render
+from .requests_to_api import requester
+from .utils import GameDetailMixin
 from django.views.generic import View
+from .models import Games
 
 
 class ViewHomePage(View):
@@ -8,47 +11,36 @@ class ViewHomePage(View):
         return render(request, 'base.html')
 
 
-class ViewResponse(View):
-    def post(self, request):
+# class ViewResponse(View):
+#     def post(self, request):
+#         """ Эта функция отправляет результат post запроса
+#             (по title игры) в шаблон.
+#         """
+#         title = request.POST['search']
+#         obj_title = requester.get_games(title=title)
+#         if obj_title == 'Nothing found':
+#             return render(request, 'api_app/nothing_found.html')
+#         # saver(obj_title)
+#         return render(request, 'api_app/index.html', context={'obj': obj_title})
+
+
+class GameDetailView(GameDetailMixin, View):
+    statistic = True
+
+    def search_games(self, request):
         """ Эта функция отправляет результат post запроса
             (по title игры) в шаблон.
         """
         title = request.POST['search']
-        obj = requester.get_games(title=title)
-        if obj == 'Nothing found':
+        obj_title = requester.get_games(title=title)
+        if obj_title == 'Nothing found':
             return render(request, 'api_app/nothing_found.html')
-        saver(obj)
-        return render(request, 'api_app/index.html', context={'obj': obj})
+        # saver(obj_title)
+        return render(request, 'api_app/index.html', context={'obj': obj_title})
 
 
-def saver(obj):
-    """ Нужно сохранить json ответ (obj = requester.get_games(title=title))
-        чтобы отправить его в функцию pull_need_query.
-        Сделал пока через try ... except, чтобы список не заполнялся
-     """
-    try:
-        del list_with_obj[0]
-    except IndexError:
-        print('First element')
-    return list_with_obj.append(obj)
-
-
-list_with_obj = []
-
-
-class GameDetailView(View):
-    def get(self, request, id):
-        """ Функция, чтобы детально показать информацию по конкретной игре,
-            через её ID.
-        """
-        statistic_record(pull_need_query(list_with_obj[0], id)['external'])  # static_record('Devil May Cry 4') - пример
-        obj = requester.get_games(id=id)
-        deal_info = requester.get_deal(pull_need_query(list_with_obj[0], id)['cheapestDealID'])  # Здесь делается
-        # запрос по ID самого дешевого предложения
-        stores_info = requester.get_stores()
-        stores_dict = requester.store_dictionary(stores_info)
-        return render(request, 'api_app/game_detail.html', context={
-            'obj': obj, 'deal': deal_info, 'stores_dict': stores_dict,
-            'stores_links': stores_links
-        }
-                      )
+class PopularGamesView(GameDetailMixin, View):
+    def popular_games_view(self, request):
+        """ Функция, чтобы вывести список из трёх самых популярных игр. """
+        games = Games.objects.order_by('-game_views')[:3]
+        return render(request, 'api_app/popular_games.html', context={'games': games})

@@ -1,43 +1,46 @@
 from .models import Games
 from .views import *
+from django.db.models import F
 from django.shortcuts import render
 from .requests_to_api import requester
+from django.views.generic import View
 
 
-def store_dictionary(self, info):
+class GameDetailMixin(View):
+    statistic = None
+
+    def get(self, request, internalName):
+        """ Функция, чтобы детально показать информацию по конкретной игре,
+            через её internalName.
+        """
+        obj_title = requester.get_games(title=internalName)
+        obj_id = requester.get_games(id=obj_title[0]['gameID'])
+        deal_info = requester.get_deal(obj_title[0]['cheapestDealID'])  # Здесь делается
+        # запрос по ID самого дешевого предложения
+        stores_info = requester.get_stores()
+        stores_dict = store_dictionary(stores_info)
+        if self.statistic:
+            statistic_record(obj_title[0]['external'], obj_title[0]['gameID'], internalName)
+        return render(request, 'api_app/game_detail.html', context={
+            'obj': obj_id, 'deal': deal_info, 'stores_dict': stores_dict,
+            'stores_links': stores_links
+        })
+
+
+def store_dictionary(info):
     """ Чтобы по ID магазина вывести его storeName, сделал
         словарь типа: {'1': 'Steam', '2': Gamesplanet, '3': '...'}
     """
     return dict(zip([item['storeID'] for item in info], [item['storeName'] for item in info]))
 
 
-def statistic_record(title):
+def statistic_record(title, game_id, internalName):
     """ Функция, для записи названия игры в БД
         и подсчёта кол-ва просмотров
     """
-    Games.objects.get_or_create(title=title)
-    # Games.objects.update_or_create(title=title)
-    print(Games.objects.all())
-
-
-def pull_need_query(obj, id):
-    """ Фукнция, которая возвращает json ответ,
-        с определенным ID конкретной игры.
-    obj =
-            [
-       1) {'gameID': '610', 'steamAppID': '45700', 'cheapest': '15.99',
-        'external': 'Devil May Cry 4'},
-       2) {'gameID': '143864', 'steamAppID': '329050', 'cheapest': '8.79',
-        'external': 'Devil May Cry 4 Special Edition'},
-       3) {'gameID': '217384', 'steamAppID': None, 'cheapest': '3.99',
-        'external': 'Devil May Cry 4 Special Edition - Lady and Trish Costumes'}
-            ]
-    Если id = 610, то вернёт 1 элемент json ответа.
-    """
-    for item in obj:
-        if id in item.values():
-            query = item
-            return query
+    game, created = Games.objects.get_or_create(title=title, game_id=game_id, internalName=internalName)
+    game.game_views = F('game_views') + 1
+    game.save()
 
 
 """ Эти ссылки отправляются в шаблон game_detail.html """

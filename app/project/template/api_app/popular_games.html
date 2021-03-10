@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for game in games %}
+<p>
+    <a href="{% url 'popular_game_url' internalName=game.internalName %}">{{ game }}</a>
+</p>
+
+    {% endfor %}
+{% endblock %}

@@ -22,7 +22,6 @@ class RequestApi:
             else:
                 return 'Nothing found'
 
-
     def get_stores(self):
         """ Запрос для получения списка магазинов,
             который я отправляю контекстом в шаблон.
