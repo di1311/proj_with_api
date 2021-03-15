@@ -7,19 +7,17 @@ from django.views.generic import View
 
 
 class GameDetailMixin(View):
-    statistic = None
-
-    def get(self, request, internalName):
+    def get(self, request, internalName, statistic):
         """ Функция, чтобы детально показать информацию по конкретной игре,
             через её internalName.
         """
         obj_title = requester.get_games(title=internalName)
-        obj_id = requester.get_games(id=obj_title[0]['gameID'])
+        obj_id = requester.get_games(id=obj_title[0]['gameID'])  # Здесь осуществляется запрос по ID игры.
         deal_info = requester.get_deal(obj_title[0]['cheapestDealID'])  # Здесь делается
-        # запрос по ID самого дешевого предложения
-        stores_info = requester.get_stores()
+        # запрос по ID самого дешевого предложения.
+        stores_info = requester.get_stores()  # Запрос, чтобы собрать инфу по магазинам.
         stores_dict = store_dictionary(stores_info)
-        if self.statistic:
+        if statistic == '1':  # Если "1", происходит запись в БД
             statistic_record(obj_title[0]['external'], obj_title[0]['gameID'], internalName)
         return render(request, 'api_app/game_detail.html', context={
             'obj': obj_id, 'deal': deal_info, 'stores_dict': stores_dict,

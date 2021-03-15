@@ -2,7 +2,7 @@
 {% block content %}
     {% for game in games %}
 <p>
-    <a href="{% url 'popular_game_url' internalName=game.internalName %}">{{ game }}</a>
+    <a href="{% url 'game_detail_url' internalName=game.internalName statistic=0 %}">{{ game }}</a>
 </p>
 
     {% endfor %}

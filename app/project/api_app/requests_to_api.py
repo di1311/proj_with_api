@@ -38,7 +38,7 @@ class RequestApi:
         """ Запрос по конкретному предложению (по его deal_id),
             отправляется когда на цену жмешь.
         """
-        deal_obj = requests.get(RequestApi.url_deals + '?id=' + deal_id)
+        deal_obj = requests.get(RequestApi.url_deals + '?id=' + str(deal_id))
         if deal_obj.status_code == 200:
             deal_obj_json = deal_obj.json()
             if deal_obj_json:

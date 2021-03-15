@@ -3,9 +3,13 @@
 
 {% block content %}
 {% for game in obj %}
+{% if title|lower in game.external|lower %}
 <p>
-    <a href="{% url 'game_detail_url' internalName=game.internalName %}">{{ game.external }}</a>
+    <a href="{% url 'game_detail_url' internalName=game.internalName statistic=1 %}">{{ game.external }}</a>
 </p>
-
+    {% endif %}
     {% endfor %}
+{% if obj == 'Nothing found' %}
+<h3>Nothing found :(</h3>
+{% endif %}
 {% endblock %}
