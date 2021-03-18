@@ -17,14 +17,15 @@
 <p>sale price - {{ deal.gameInfo.salePrice }}$</p>
 <p>retail price - {{ deal.gameInfo.retailPrice }}$</p>
 
-    <h5>All deals:</h5>
-
+    <h5>Other deals:</h5>
         {% for obj_deal in obj.deals %}
+        {% if stores_dict|get_item:obj_deal.storeID != stores_dict|get_item:deal.gameInfo.storeID %}
     <p>
         <a href="{{ stores_links|get_item:obj_deal.storeID }}">{{ stores_dict|get_item:obj_deal.storeID }}:</a>
         price - {{ obj_deal.price }}$,
         retail price - {{ obj_deal.retailPrice }}$,
         savings - {{ obj_deal.savings }}
     </p>
+        {% endif %}
           {% endfor %}
 {% endblock %}

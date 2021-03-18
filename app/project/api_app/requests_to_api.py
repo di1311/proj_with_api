@@ -13,8 +13,7 @@ class RequestApi:
             и запрос для информации по конкретной игре
             (чтобы кликнуть на имя игры и сделать второй запрос по id).
         """
-        params = dict(**kwargs)
-        res_obj = requests.get(RequestApi.url_games, params=params)
+        res_obj = requests.get(self.url_games, params=kwargs)
         if res_obj.status_code == 200:
             res_obj_json = res_obj.json()
             if res_obj_json:
@@ -26,7 +25,7 @@ class RequestApi:
         """ Запрос для получения списка магазинов,
             который я отправляю контекстом в шаблон.
         """
-        res_obj = requests.get(RequestApi.url_stores)
+        res_obj = requests.get(self.url_stores)
         if res_obj.status_code == 200:
             res_obj_json = res_obj.json()
             if res_obj_json:
@@ -38,7 +37,7 @@ class RequestApi:
         """ Запрос по конкретному предложению (по его deal_id),
             отправляется когда на цену жмешь.
         """
-        deal_obj = requests.get(RequestApi.url_deals + '?id=' + str(deal_id))
+        deal_obj = requests.get(self.url_deals + '?id=' + str(deal_id))
         if deal_obj.status_code == 200:
             deal_obj_json = deal_obj.json()
             if deal_obj_json:

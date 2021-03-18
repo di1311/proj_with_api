@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
 {% for game in obj %}
 {% if title|lower in game.external|lower %}
-<p>
-    <a href="{% url 'game_detail_url' internalName=game.internalName statistic=1 %}">{{ game.external }}</a>
-</p>
+    <div class="card" style="width: 13rem;">
+        <img src="{{ game.thumb }}"
+             class="card-img" alt="...">
+        <div class="card-body">
+            <h6 class="card-title">
+                <a href="{% url 'game_detail_url' internalName=game.internalName %}?statistic=True">
+                        {{ game.external }}
+                </a>
+            </h6>
+        </div>
+    </div>
     {% endif %}
     {% endfor %}
+</div>
 {% if obj == 'Nothing found' %}
 <h3>Nothing found :(</h3>
 {% endif %}
