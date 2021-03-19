@@ -1,7 +1,6 @@
 import requests
 
 
-# noinspection PyMethodMayBeStatic
 class RequestApi:
     """ Класс, который делает запрос, я хз """
     url_games = 'https://www.cheapshark.com/api/1.0/games'

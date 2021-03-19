@@ -5,8 +5,8 @@
 <div class="card" style="width: 13rem;">
   <img src="{{ game.image_link }}" class="card-img" alt="...">
   <div class="card-body">
-    <h6 class="card-title"><a href="{% url 'game_detail_url' internalName=game.internalName %}">{{ game }}</a></h6>
-      <p class="card-text">{{ game.game_views }} views</p>
+    <h6 class="card-title"><a href="{% url 'game_detail_url' internal_name=game.internalName %}">{{ game }}</a></h6>
+    <p class="card-text"><small class="text-muted">{{ game.game_views }} views</small></p>
   </div>
 </div>
 {% endfor %}

@@ -13,22 +13,21 @@ class ViewHomePage(View):
 
 
 class GameDetailView(View):
-    def get(self, request, internalName=None):
+    def get(self, request, internal_name=None):
         """ Функция, чтобы детально показать информацию по конкретной игре,
             через её internalName.
         """
-        if internalName is None:
+        if internal_name is None:  # если пользователь вводит 'localhost/search'.
             return render(request, 'api_app/please_use_searchForm.html')
         query = request.GET.get('statistic', None)
-        obj_title = requester.get_games(title=internalName)
-
+        obj_title = requester.get_games(title=internal_name)
+        obj_id = requester.get_games(id=obj_title[0]['gameID'])  # Здесь осуществляется запрос по ID игры.
         deal_info = requester.get_deal(obj_title[0]['cheapestDealID'])  # Здесь делается
         # запрос по ID самого дешевого предложения.
         stores_info = requester.get_stores()  # Запрос, чтобы собрать инфу по магазинам.
         stores_dict = store_dictionary(stores_info)
-        obj_id = requester.get_games(id=obj_title[0]['gameID'])  # Здесь осуществляется запрос по ID игры.
-        if query:  # Если "1", происходит запись в БД
-            statistic_record(obj_title[0]['external'], obj_title[0]['gameID'], internalName, obj_title[0]['thumb'])
+        if query:  # Если передаётся query параметр, то происходит запись игры в БД.
+            statistic_record(obj_title[0]['external'], obj_title[0]['gameID'], internal_name, obj_title[0]['thumb'])
         return render(request, 'api_app/game_detail.html', context={
             'obj': obj_id, 'deal': deal_info, 'stores_dict': stores_dict,
             'stores_links': stores_links
@@ -36,7 +35,7 @@ class GameDetailView(View):
 
     def post(self, request):
         """ Эта функция отправляет результат post запроса
-            (по title игры) в шаблон.
+                    (по title игры) в шаблон.
         """
         title = request.POST['search']
         obj_title = requester.get_games(title=title)
