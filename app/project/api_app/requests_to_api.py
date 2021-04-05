@@ -7,7 +7,7 @@ class RequestApi:
     url_stores = 'https://www.cheapshark.com/api/1.0/stores'
     url_deals = 'https://www.cheapshark.com/api/1.0/deals'
 
-    def get_games(self, **kwargs):
+    def get_games(self, *args, **kwargs):
         """ Запрос для получения списка игр
             и запрос для информации по конкретной игре
             (чтобы кликнуть на имя игры и сделать второй запрос по id).
@@ -18,7 +18,7 @@ class RequestApi:
             if res_obj_json:
                 return res_obj_json
             else:
-                return 'Nothing found'
+                return None
 
     def get_stores(self):
         """ Запрос для получения списка магазинов,

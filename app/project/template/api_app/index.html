@@ -18,7 +18,7 @@
     {% endif %}
     {% endfor %}
 </div>
-{% if obj == 'Nothing found' %}
+{% if not obj %}
 <h3>Nothing found :(</h3>
 {% endif %}
 {% endblock %}

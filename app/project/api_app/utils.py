@@ -10,7 +10,7 @@ def store_dictionary(info):
     """ Чтобы по ID магазина вывести его storeName, сделал
         словарь типа: {'1': 'Steam', '2': Gamesplanet, '3': '...'}
     """
-    return dict(zip([item['storeID'] for item in info], [item['storeName'] for item in info]))
+    return dict(zip([item.get('storeID', None) for item in info], [item.get('storeName', None) for item in info]))
 
 
 def statistic_record(title, game_id, internalName, thumb):
